@@ -9,7 +9,7 @@ from groq import Groq
 from test import extract_text_from_pdf
 import re
 import json
-
+from flask_cors import CORS
 
 
 def extract_json(data):
@@ -50,6 +50,7 @@ def get_completion_0(data , prompt):
 
 
 app = Flask(__name__)
+CORS(app)
 
 def calculate_severity(cbc_data):
     weights = {
