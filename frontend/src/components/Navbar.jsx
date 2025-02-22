@@ -48,6 +48,9 @@ const Navbar = () => {
               <Link to="/profile" className="nav-link">
                 Profile
               </Link>
+              <Link to="/video-conference" className="nav-link">
+                Video Conference
+              </Link>
               <button onClick={logout} className="nav-link logout-btn">
                 Logout
               </button>

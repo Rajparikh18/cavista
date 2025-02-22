@@ -45,6 +45,10 @@ const Communities = () => {
     }
   }
 
+  const handleStartVideoCall = (communityId) => {
+    navigate(`/video/${communityId}`);
+  };
+
   return (
     <div className="communities-page">
       <div className="communities-header">
@@ -64,9 +68,17 @@ const Communities = () => {
             <p className="community-description">{community.description}</p>
             <div className="community-footer">
               <span className="created-by">Created by: {community.createdBy.username}</span>
-              <button className="join-btn" onClick={() => handleJoinCommunity(community._id)}>
-                Join Community
-              </button>
+              <div className="community-actions">
+                <button className="join-btn" onClick={() => handleJoinCommunity(community._id)}>
+                  Join Community
+                </button>
+                <button 
+                  className="video-call-btn"
+                  onClick={() => handleStartVideoCall(community._id)}
+                >
+                  Start Video Call
+                </button>
+              </div>
             </div>
           </div>
         ))}
