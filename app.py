@@ -8,6 +8,9 @@ from test import extract_text_from_pdf
 import re
 import json
 from flask_cors import CORS
+from flask import send_file
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 
 def extract_json(data):
@@ -263,7 +266,7 @@ def format_cbc_analysis_to_html(cbc_analysis):
         medical_guidance=cbc_analysis.get("CBC_Analysis", {}).get("general_recommendations", {}).get("medical_guidance", "N/A")
     )
 
-    return html_output
+    return jsonify(cbc_analysis)
   
 @app.route('/')
 def index():

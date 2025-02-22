@@ -9,6 +9,8 @@ import communityRoutes from './routes/communityRoutes.js';
 import Message from './models/Message.js';
 import jwt from 'jsonwebtoken';
 import Patient from './models/Patient.js';
+import fileUpload from 'express-fileupload';
+import uploadRoutes from './routes/uploadRoutes.js';
 
 dotenv.config();
 connectDB();
@@ -25,10 +27,12 @@ const io = new Server(httpServer, {
 app.use(cors());
 app.use(express.json());
 
+
+app.use(fileUpload({ useTempFiles: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/communities', communityRoutes);
-
+app.use('/api/upload', uploadRoutes);
 // Socket.IO middleware for authentication
 io.use(async (socket, next) => {
   try {

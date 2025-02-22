@@ -19,7 +19,15 @@ const patientSchema = new mongoose.Schema({
   role: {
     type: String,
     default: 'patient',
-  }
+  },
+  documents: [{
+    url: String,
+    public_id: String,
+    uploadDate: {
+      type: Date,
+      default: Date.now
+    }
+  }]
 }, {
   timestamps: true
 });
