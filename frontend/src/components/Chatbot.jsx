@@ -14,7 +14,6 @@ const Chatbot = () => {
             const formData = new FormData();
             formData.append('report', file);
 
-            // Add user message
             setMessages(prev => [...prev, {
                 text: `Uploaded file: ${file.name}`,
                 isBot: false
@@ -27,7 +26,6 @@ const Chatbot = () => {
                 });
                 const data = await response.text();
                 
-                // Add bot response
                 setMessages(prev => [...prev, {
                     text: data,
                     isBot: true

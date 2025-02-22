@@ -1,9 +1,7 @@
 import os
 from flask import Flask, jsonify, render_template, request
-#import tensorflow as tf
-# from tensorflow.keras.preprocessing import image
-import numpy as np # type: ignore
-# from io import BytesIO
+
+import numpy as np
 from flask_cors import CORS
 from groq import Groq
 from test import extract_text_from_pdf
@@ -13,13 +11,12 @@ from flask_cors import CORS
 
 
 def extract_json(data):
-     # Use regex to extract content inside triple backticks
     match = re.search(r'```(.*?)```', data, re.DOTALL)
     
     if match:
-        json_str = match.group(1).strip()  # Extract JSON content and remove extra spaces
+        json_str = match.group(1).strip()
         try:
-            return json.loads(json_str)  # Convert to Python dictionary
+            return json.loads(json_str) 
         except json.JSONDecodeError as e:
             print("Invalid JSON:", e)
             return None
@@ -35,13 +32,12 @@ def get_completion_0(data , prompt):
     try:
             client = Groq(api_key="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")
             
-            # Generate the completion using the OpenAI client
             chat_completion = client.chat.completions.create(
                 messages=[
                     {"role": "user", "content": f"{prompt}. here is the data : {data}"}
                 ],
                 model="llama3-70b-8192",
-                temperature=0.01  # Adjust randomness
+                temperature=0.01
             )
             response = chat_completion.choices[0].message.content
             return response
@@ -72,20 +68,15 @@ def calculate_severity(cbc_data):
     
     total_weight = sum(weights.values())
     
-    # Initialize total weighted severity
     total_weighted_severity = 0
 
-    # Iterate through parameters
     for param, details in cbc_data.get("parameters", {}).items():
         if param in weights and "severity_rating" in details:
             severity_rating = details["severity_rating"]
             weight = weights[param]
             total_weighted_severity += severity_rating * weight
-
-    # Calculate overall severity score (weighted average)
     overall_severity_score = total_weighted_severity / total_weight
 
-    # Determine severity level and assessment
     if overall_severity_score <= 1.5:
         severity_level = 1
         assessment = "No Significant Issue"
@@ -108,7 +99,6 @@ def format_cbc_analysis_to_text(cbc_analysis):
     text_output = "Complete Blood Count (CBC) Analysis Report\n"
     text_output += "========================================\n\n"
     
-    # Extract and format parameters
     parameters = cbc_analysis.get("CBC_Analysis", {}).get("parameters", {})
     for param, details in parameters.items():
         text_output += f"Parameter: {param}\n"
@@ -123,13 +113,11 @@ def format_cbc_analysis_to_text(cbc_analysis):
         text_output += f"    * Medical Attention: {recommendations.get('medical_attention', 'N/A')}\n"
         text_output += "\n"
     
-    # Extract and format overall assessment
     overall_urgency_rating = cbc_analysis.get("CBC_Analysis", {}).get("overall_urgency_rating", "N/A")
     final_assessment = cbc_analysis.get("CBC_Analysis", {}).get("final_assessment", "N/A")
     text_output += f"Overall Urgency Rating: {overall_urgency_rating}\n"
     text_output += f"Final Assessment: {final_assessment}\n\n"
     
-    # Extract and format general recommendations
     general_recommendations = cbc_analysis.get("CBC_Analysis", {}).get("general_recommendations", {})
     text_output += "General Recommendations:\n"
     text_output += f"  - Dietary: {general_recommendations.get('dietary', 'N/A')}\n"
@@ -229,7 +217,6 @@ def format_cbc_analysis_to_html(cbc_analysis):
             <ul>
     """
 
-    # Extract and format parameters
     parameters = cbc_analysis.get("CBC_Analysis", {}).get("parameters", {})
     for param, details in parameters.items():
         html_output += f"""

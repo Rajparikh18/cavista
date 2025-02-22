@@ -1,103 +1,5 @@
-.communities-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 1rem;
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    gap: 1rem;
-  }
-  
-  .communities-sidebar {
-    background-color: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  }
-  
-  .communities-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
-  
-  .communities-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .community-item {
-    padding: 0.5rem;
-    cursor: pointer;
-    border-radius: 0.25rem;
-    transition: background-color 0.2s;
-  }
-  
-  .community-item:hover {
-    background-color: #f3f4f6;
-  }
-  
-  .chat-container {
-    background-color: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  }
-  
-  .messages-container {
-    height: 24rem;
-    overflow-y: auto;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .message-item {
-    padding: 0.5rem;
-    background-color: #f9fafb;
-    border-radius: 0.25rem;
-  }
-  
-  .sender-name {
-    font-weight: 700;
-  }
-  
-  .message-form {
-    display: flex;
-    gap: 0.5rem;
-  }
-  
-  .message-input {
-    flex: 1;
-    padding: 0.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.25rem;
-  }
-  
-  .send-button {
-    background-color: #2563eb;
-    color: white;
-    padding: 0 1rem;
-    border-radius: 0.25rem;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .send-button:hover {
-    background-color: #1d4ed8;
-  }
-  
-  .select-prompt {
-    text-align: center;
-    color: #6b7280;
-  }
-
 .communities-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 0;
 }
 
 .communities-header {
@@ -109,22 +11,22 @@
 
 .communities-header h1 {
   font-size: 2rem;
-  color: #1a365d;
+  color: #333;
 }
 
 .create-community-btn {
-  background-color: #2563eb;
-  color: white;
-  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: #ffffff;
   border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .create-community-btn:hover {
-  background-color: #1d4ed8;
+  background-color: #0056b3;
 }
 
 .communities-grid {
@@ -134,80 +36,67 @@
 }
 
 .community-card {
-  background-color: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.community-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
 }
 
 .community-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
   margin-bottom: 1rem;
 }
 
 .community-card-header h2 {
-  font-size: 1.25rem;
-  color: #2d3748;
+  font-size: 1.2rem;
+  color: #333;
   margin: 0;
 }
 
 .member-count {
-  background-color: #edf2f7;
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.875rem;
-  color: #4a5568;
+  font-size: 0.9rem;
+  color: #666;
 }
 
 .community-description {
-  color: #4a5568;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
+  flex-grow: 1;
+  margin-bottom: 1rem;
+  color: #555;
 }
 
 .community-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #e2e8f0;
-  padding-top: 1rem;
 }
 
 .created-by {
-  font-size: 0.875rem;
-  color: #718096;
+  font-size: 0.9rem;
+  color: #666;
 }
 
 .join-btn {
-  background-color: #ebf8ff;
-  color: #2b6cb0;
-  border: 1px solid #bee3f8;
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
   padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
 }
 
 .join-btn:hover {
-  background-color: #bee3f8;
-  color: #2c5282;
+  background-color: #218838;
 }
 
 .no-communities {
   text-align: center;
-  padding: 3rem;
-  background-color: white;
-  border-radius: 0.75rem;
-  border: 2px dashed #e2e8f0;
-  color: #718096;
+  color: #666;
+  margin-top: 2rem;
 }
+

@@ -1,0 +1,43 @@
+.profile-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 2rem auto;
+  }
+  
+  .profile-title {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .profile-info {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .profile-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .profile-field:last-child {
+    border-bottom: none;
+  }
+  
+  .field-label {
+    font-weight: bold;
+    color: #666;
+  }
+  
+  .field-value {
+    color: #333;
+  }
+  
+  

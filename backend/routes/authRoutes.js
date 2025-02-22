@@ -75,4 +75,18 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.get('/users/:id', async (req, res) => {
+  try {
+    const user = await Patient.findById(req.params.id).select('-password');
+    if (!user) {
+      res.status(404);
+      throw new Error('User not found');
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
 export default router;
