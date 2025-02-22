@@ -1,0 +1,38 @@
+.navbar {
+    background-color: #2563eb; /* bg-blue-600 */
+    color: white;
+    padding: 1rem; /* p-4 */
+  }
+  
+  .navbar-container {
+    max-width: 1280px; /* container */
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 700; /* font-bold */
+  }
+  
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* space-x-4 */
+  }
+  
+  .nav-link {
+    transition: color 0.2s;
+  }
+  
+  .nav-link:hover {
+    color: #bfdbfe; /* hover:text-blue-200 */
+  }
+  
+  .username {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
