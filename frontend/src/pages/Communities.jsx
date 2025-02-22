@@ -1,32 +1,31 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { useAuth } from "../context/AuthContext"
-import CreateCommunityModal from "../components/CreateCommunityModal"
-import "./Communities.css"
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import CreateCommunityModal from "../components/CreateCommunityModal";
 
 const Communities = () => {
-  const { user } = useAuth()
-  const navigate = useNavigate()
-  const [communities, setCommunities] = useState([])
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [communities, setCommunities] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchCommunities()
-  }, [])
+    fetchCommunities();
+  }, []);
 
   const fetchCommunities = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/communities", {
         headers: { Authorization: `Bearer ${user.token}` },
-      })
-      const data = await response.json()
-      setCommunities(data)
+      });
+      const data = await response.json();
+      setCommunities(data);
     } catch (error) {
-      console.error("Error fetching communities:", error)
+      console.error("Error fetching communities:", error);
     }
-  }
+  };
 
   const handleJoinCommunity = async (communityId) => {
     try {
@@ -36,35 +35,41 @@ const Communities = () => {
           Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",
         },
-      })
+      });
       if (response.ok) {
-        navigate(`/chat/${communityId}`)
+        navigate(`/chat/${communityId}`);
       }
     } catch (error) {
-      console.error("Error joining community:", error)
+      console.error("Error joining community:", error);
     }
-  }
+  };
 
   return (
-    <div className="communities-page">
-      <div className="communities-header">
-        <h1>Medical Communities</h1>
-        <button onClick={() => setIsModalOpen(true)} className="create-community-btn">
-          Create New Community
+    <div className="min-h-screen bg-gray-50 py-16 px-6 md:px-16">
+      <div className="flex justify-between items-center mb-12">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Medical Communities</h1>
+        <button 
+          onClick={() => setIsModalOpen(true)} 
+          className="bg-red-600 text-white px-3 py-1 rounded-full text-m font-semibold hover:bg-red-700 transition-colors"
+        >
+          + Create New Community
         </button>
       </div>
 
-      <div className="communities-grid">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {communities.map((community) => (
-          <div key={community._id} className="community-card">
-            <div className="community-card-header">
-              <h2>{community.name}</h2>
-              <span className="member-count">{community.members.length} members</span>
+          <div key={community._id} className="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">{community.name}</h2>
+              <p className="text-gray-600 mb-4">{community.description}</p>
+              <span className="text-gray-500 text-sm">{community.members.length} members</span>
             </div>
-            <p className="community-description">{community.description}</p>
-            <div className="community-footer">
-              <span className="created-by">Created by: {community.createdBy.username}</span>
-              <button className="join-btn" onClick={() => handleJoinCommunity(community._id)}>
+            <div className="mt-4 flex justify-between items-center">
+              <span className="text-gray-500 text-sm">Created by: {community.createdBy.username}</span>
+              <button 
+                className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-red-700 transition-colors"
+                onClick={() => handleJoinCommunity(community._id)}
+              >
                 Join Community
               </button>
             </div>
@@ -73,8 +78,8 @@ const Communities = () => {
       </div>
 
       {communities.length === 0 && (
-        <div className="no-communities">
-          <p>No communities found. Create one to get started!</p>
+        <div className="text-center mt-12">
+          <p className="text-gray-600 text-lg">No communities found. Create one to get started!</p>
         </div>
       )}
 
@@ -84,8 +89,7 @@ const Communities = () => {
         onCreateCommunity={fetchCommunities}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Communities
-
+export default Communities;

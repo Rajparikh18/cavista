@@ -1,4 +1,3 @@
-import './ChatbotPage.css'
 import Chatbot from '../components/Chatbot'
 
 function ChatbotPage() {
