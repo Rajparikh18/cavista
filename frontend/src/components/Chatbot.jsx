@@ -73,87 +73,117 @@ const handleSavePdf = () => {
         return;
     }
 
-    const doc = new jsPDF();
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const margin = 10;
-    let y = margin;
+    try {
+        const doc = new jsPDF();
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const margin = 10;
+        let y = margin;
 
-    // Helper function to add wrapped text
-    const addWrappedText = (text, x, y, maxWidth, lineHeight = 7) => {
-        const lines = doc.splitTextToSize(text, maxWidth);
-        lines.forEach(line => {
-            if (y > pageHeight - margin) {
-                doc.addPage();
-                y = margin;
-            }
-            doc.text(line, x, y);
-            y += lineHeight;
-        });
-        return y;
-    };
+        // Helper function to add wrapped text
+        const addWrappedText = (text, x, y, maxWidth, lineHeight = 7) => {
+            if (!text) return y; // Handle undefined or null text
+            const lines = doc.splitTextToSize(text.toString(), maxWidth);
+            lines.forEach(line => {
+                if (y > pageHeight - margin) {
+                    doc.addPage();
+                    y = margin;
+                }
+                doc.text(line, x, y);
+                y += lineHeight;
+            });
+            return y;
+        };
 
-    // Title
-    doc.setFontSize(16);
-    doc.setFont(undefined, 'bold');
-    y = addWrappedText('CBC Analysis Report', margin, y, pageWidth - 2 * margin, 10);
-    y += 10;
+        // Title
+        doc.setFontSize(16);
+        doc.setFont("helvetica", 'bold');
+        y = addWrappedText('CBC Analysis Report', margin, y, pageWidth - 2 * margin, 10);
+        y += 10;
 
-    // Parameters Analysis
-    doc.setFontSize(14);
-    y = addWrappedText('Parameters Analysis', margin, y, pageWidth - 2 * margin);
-    y += 5;
-
-    doc.setFontSize(12);
-    const parameters = analysisData.CBC_Analysis.parameters;
-    
-    // Add detailed parameters
-    for (const param in parameters) {
-        const details = parameters[param];
-        
-        doc.setFont(undefined, 'bold');
-        y = addWrappedText(`${param}`, margin, y, pageWidth - 2 * margin);
-        
-        doc.setFont(undefined, 'normal');
-        y = addWrappedText(`Value: ${details.value} ${details.unit}`, margin + 5, y, pageWidth - 2 * margin);
-        y = addWrappedText(`Status: ${details.status}`, margin + 5, y, pageWidth - 2 * margin);
-        y = addWrappedText(`Possible Conditions: ${details.possible_conditions.join(', ')}`, margin + 5, y, pageWidth - 2 * margin);
-        
-        // Recommendations
-        y = addWrappedText('Recommendations:', margin + 5, y, pageWidth - 2 * margin);
-        y = addWrappedText(`• Dietary Changes: ${details.recommendations.dietary_changes}`, margin + 10, y, pageWidth - 2 * margin);
-        y = addWrappedText(`• Lifestyle Changes: ${details.recommendations.lifestyle_changes}`, margin + 10, y, pageWidth - 2 * margin);
-        y = addWrappedText(`• Medical Attention: ${details.recommendations.medical_attention}`, margin + 10, y, pageWidth - 2 * margin);
+        // Parameters Analysis
+        doc.setFontSize(14);
+        y = addWrappedText('Parameters Analysis', margin, y, pageWidth - 2 * margin);
         y += 5;
+
+        doc.setFontSize(12);
+        const parameters = analysisData.CBC_Analysis.parameters;
+        
+        // Add detailed parameters
+        for (const param in parameters) {
+            const details = parameters[param];
+            
+            doc.setFont(undefined, 'bold');
+            y = addWrappedText(`${param}`, margin, y, pageWidth - 2 * margin);
+            
+            doc.setFont(undefined, 'normal');
+            y = addWrappedText(`Value: ${details.value} ${details.unit}`, margin + 5, y, pageWidth - 2 * margin);
+            y = addWrappedText(`Status: ${details.status}`, margin + 5, y, pageWidth - 2 * margin);
+            y = addWrappedText(`Possible Conditions: ${details.possible_conditions.join(', ')}`, margin + 5, y, pageWidth - 2 * margin);
+            
+            // Recommendations
+            y = addWrappedText('Recommendations:', margin + 5, y, pageWidth - 2 * margin);
+            y = addWrappedText(`• Dietary Changes: ${details.recommendations.dietary_changes}`, margin + 10, y, pageWidth - 2 * margin);
+            y = addWrappedText(`• Lifestyle Changes: ${details.recommendations.lifestyle_changes}`, margin + 10, y, pageWidth - 2 * margin);
+            y = addWrappedText(`• Medical Attention: ${details.recommendations.medical_attention}`, margin + 10, y, pageWidth - 2 * margin);
+            y += 5;
+        }
+
+        // Overall Assessment
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        y = addWrappedText('Overall Assessment', margin, y, pageWidth - 2 * margin);
+        y += 5;
+
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'normal');
+        y = addWrappedText(`Urgency Rating: ${analysisData.CBC_Analysis.overall_urgency_rating}`, margin + 5, y, pageWidth - 2 * margin);
+        y = addWrappedText(`Final Assessment: ${analysisData.CBC_Analysis.final_assessment}`, margin + 5, y, pageWidth - 2 * margin);
+        y += 5;
+
+        // General Recommendations
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        y = addWrappedText('General Recommendations', margin, y, pageWidth - 2 * margin);
+        y += 5;
+
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'normal');
+        const generalRecs = analysisData.CBC_Analysis.general_recommendations;
+        y = addWrappedText(`Dietary: ${generalRecs.dietary}`, margin + 5, y, pageWidth - 2 * margin);
+        y = addWrappedText(`Lifestyle: ${generalRecs.lifestyle}`, margin + 5, y, pageWidth - 2 * margin);
+        y = addWrappedText(`Medical Guidance: ${generalRecs.medical_guidance}`, margin + 5, y, pageWidth - 2 * margin);
+
+        // Save the PDF with a timestamp
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const fileName = `CBC_Analysis_Report_${timestamp}.pdf`;
+        
+        // Use blob and createObjectURL for better browser compatibility
+        const pdfBlob = doc.output('blob');
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        
+        // Create a temporary link element to trigger the download
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        
+        // Clean up
+        document.body.removeChild(link);
+        URL.revokeObjectURL(pdfUrl);
+        
+        setMessages(prev => [...prev, {
+            text: "PDF report has been generated and downloaded successfully!",
+            isBot: true
+        }]);
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        setMessages(prev => [...prev, {
+            text: "Error generating PDF report. Please try again.",
+            isBot: true
+        }]);
     }
-
-    // Overall Assessment
-    doc.setFontSize(14);
-    doc.setFont(undefined, 'bold');
-    y = addWrappedText('Overall Assessment', margin, y, pageWidth - 2 * margin);
-    y += 5;
-
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'normal');
-    y = addWrappedText(`Urgency Rating: ${analysisData.CBC_Analysis.overall_urgency_rating}`, margin + 5, y, pageWidth - 2 * margin);
-    y = addWrappedText(`Final Assessment: ${analysisData.CBC_Analysis.final_assessment}`, margin + 5, y, pageWidth - 2 * margin);
-    y += 5;
-
-    // General Recommendations
-    doc.setFontSize(14);
-    doc.setFont(undefined, 'bold');
-    y = addWrappedText('General Recommendations', margin, y, pageWidth - 2 * margin);
-    y += 5;
-
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'normal');
-    const generalRecs = analysisData.CBC_Analysis.general_recommendations;
-    y = addWrappedText(`Dietary: ${generalRecs.dietary}`, margin + 5, y, pageWidth - 2 * margin);
-    y = addWrappedText(`Lifestyle: ${generalRecs.lifestyle}`, margin + 5, y, pageWidth - 2 * margin);
-    y = addWrappedText(`Medical Guidance: ${generalRecs.medical_guidance}`, margin + 5, y, pageWidth - 2 * margin);
-
-    // Save the PDF
-    doc.save('CBC_Analysis_Report.pdf');
 };
 
 return (
