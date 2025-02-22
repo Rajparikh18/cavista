@@ -46,35 +46,64 @@ const VideoRoom = ({ roomCode, onLeave }) => {
                 socket.emit('video-offer', { offer, roomCode });
             }
         });
-
         socket.on('video-offer', async (offer) => {
             if (!peerConnectionRef.current) {
                 await initializePeerConnection();
             }
-            await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(offer));
-            const answer = await peerConnectionRef.current.createAnswer();
-            await peerConnectionRef.current.setLocalDescription(answer);
+        
+            const peerConnection = peerConnectionRef.current;
+        
+            // Check if we are in a valid state to set remote description
+            if (peerConnection.signalingState !== "stable") {
+                console.warn("Skipping setRemoteDescription: Invalid signaling state", peerConnection.signalingState);
+                return;
+            }
+        
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+        
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+        
             socket.emit('video-answer', { answer, roomCode });
         });
-
+        
         socket.on('video-answer', async (answer) => {
-            await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(answer));
+            if (!peerConnectionRef.current) return;
+        
+            const peerConnection = peerConnectionRef.current;
+        
+            // Ensure that an offer was set before setting the answer
+            if (peerConnection.signalingState !== "have-local-offer") {
+                console.warn("Skipping setRemoteDescription: Unexpected signaling state", peerConnection.signalingState);
+                return;
+            }
+        
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
         });
-
+        
         socket.on('ice-candidate', async (candidate) => {
             if (peerConnectionRef.current) {
-                await peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(candidate));
+                try {
+                    await peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(candidate));
+                } catch (err) {
+                    console.error("Error adding received ICE candidate", err);
+                }
             }
         });
-
+        
         socket.on('participant-left', ({ participants: newParticipants }) => {
             setParticipants(newParticipants);
-            remoteVideoRef.current.srcObject = null;
+        
+            if (remoteVideoRef.current) {
+                remoteVideoRef.current.srcObject = null;
+            }
+        
             if (peerConnectionRef.current) {
                 peerConnectionRef.current.close();
                 peerConnectionRef.current = null;
             }
         });
+        
 
         return () => {
             cleanup();
