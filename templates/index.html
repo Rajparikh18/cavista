@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBC Report Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h2>CBC Report Analyzer</h2>
+        </div>
+        <div class="chatbot-body" id="chatbot-body">
+            <div class="message bot-message">Hello! Please upload your CBC report in PDF format.</div>
+        </div>
+        <div class="chatbot-footer">
+            <input type="file" id="file-input" accept="application/pdf">
+            <button id="upload-btn">Upload</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
