@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
+import ChatbotPage from './pages/ChatbotPage';
 import Register from './pages/Register';
 import Communities from './pages/Communities';
 import ChatApp from './pages/ChatApp';
@@ -23,6 +24,7 @@ function App() {
         <div className="app-container">
           <Navbar />
           <Routes>
+            <Route path='/chatbot' element={<ChatbotPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route
