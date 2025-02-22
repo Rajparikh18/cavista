@@ -63,5 +63,26 @@ router.get('/:id/messages', protect, checkRole(['patient']), async (req, res) =>
     res.status(400).json({ message: error.message });
   }
 });
+//send messages
+router.post('/:id/messages', protect, checkRole(['patient']), async (req, res) => {
+  try {
+    const { content } = req.body;
+    const message = await Message.create({
+      community: req.params.id,
+      sender: req.user._id,
+      content
+    });
+
+    const populatedMessage = await Message.findById(message._id)
+      .populate('sender', 'username');
+
+    // Emit the new message to all users in the community
+    req.app.get('io').to(req.params.id).emit('newMessage', populatedMessage);
+
+    res.status(201).json(populatedMessage);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 
 export default router;

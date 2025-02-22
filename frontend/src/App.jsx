@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Communities from './pages/Communities';
+import ChatApp from './pages/ChatApp';
 import './App.css';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -40,6 +41,7 @@ function App() {
                 </div>
               }
             />
+            <Route path="/chat/:communityId" element={<ChatApp />} />
           </Routes>
         </div>
       </Router>
