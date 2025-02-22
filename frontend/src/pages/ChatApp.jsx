@@ -1,81 +1,79 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { io } from "socket.io-client";
-import { useAuth } from "../context/AuthContext";
-import "./ChatApp.css";
+"use client"
+
+import { useState, useEffect, useRef } from "react"
+import { useParams } from "react-router-dom"
+import { io } from "socket.io-client"
+import { useAuth } from "../context/AuthContext"
+import "./ChatApp.css"
 
 function ChatApp() {
-  const { communityId } = useParams();
-  const { user } = useAuth();
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const [socket, setSocket] = useState(null);
+  const { communityId } = useParams()
+  const { user } = useAuth()
+  console.log(user);
+  const [messages, setMessages] = useState([])
+  const [input, setInput] = useState("")
+  const [socket, setSocket] = useState(null)
+  const messagesEndRef = useRef(null)
 
   useEffect(() => {
-    if (!user || !user.token) return;
-
-    // Fetch existing messages on mount
     const fetchMessages = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/communities/${communityId}/messages`,
-          {
-            headers: { Authorization: `Bearer ${user.token}` },
-          }
-        );
-        const data = await response.json();
-        setMessages(data);
+        const response = await fetch(`http://localhost:5000/api/communities/${communityId}/messages`, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        })
+        const data = await response.json()
+        setMessages(data)
       } catch (error) {
-        console.error("Error fetching messages:", error);
+        console.error("Error fetching messages:", error)
       }
-    };
+    }
 
-    fetchMessages();
+    fetchMessages()
 
-    // Set up WebSocket connection
     const newSocket = io("http://localhost:5000", {
-      auth: { token: user.token },
-      reconnection: true,
-    });
+      auth: {
+        token: user.token,
+      },
+    })
 
-    newSocket.on("connect", () => {
-      console.log("Connected to WebSocket");
-      newSocket.emit("joinCommunity", communityId);
-    });
+    newSocket.emit("joinCommunity", communityId)
 
     newSocket.on("newMessage", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
+      setMessages((prevMessages) => [...prevMessages, message])
+    })
 
-    setSocket(newSocket);
+    setSocket(newSocket)
 
     return () => {
-      newSocket.emit("leaveCommunity", communityId);
-      newSocket.off("newMessage"); // Remove listener
-      newSocket.close();
-    };
-  }, [communityId, user]);
+      newSocket.emit("leaveCommunity", communityId)
+      newSocket.close()
+    }
+  }, [communityId, user.token])
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
 
   const sendMessage = () => {
-    if (input.trim() && socket) {
-      console.log("Sending message:", input);
-      socket.emit("sendMessage", { communityId, content: input.trim() });
-      setInput(""); // Clear input after sending
+    if (socket && input.trim()) {
+      socket.emit("sendMessage", {
+        communityId,
+        content: input.trim(),
+      })
+      setInput("")
     }
-  };
+  }
 
   return (
     <div className="chat-container">
       <div className="messages">
         {messages.map((msg) => (
-          <div
-            key={msg._id}
-            className={`message ${msg.sender._id === user._id ? "own-message" : ""}`}
-          >
+          <div key={msg._id} className={`message ${msg.sender._id === user._id ? "own-message" : ""}`}>
             <span className="sender">{msg.sender.username}:</span>
             <span className="content">{msg.content}</span>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       <div className="input-container">
         <input
@@ -88,7 +86,8 @@ function ChatApp() {
         <button onClick={sendMessage}>Send</button>
       </div>
     </div>
-  );
+  )
 }
 
-export default ChatApp;
+export default ChatApp
+

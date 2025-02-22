@@ -1,21 +1,23 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import Navbar from './components/Navbar';
-import Login from './pages/Login';
-import ChatbotPage from './pages/ChatbotPage';
-import Register from './pages/Register';
-import Communities from './pages/Communities';
-import ChatApp from './pages/ChatApp';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import { AuthProvider, useAuth } from "./context/AuthContext"
+import Navbar from "./components/Navbar"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
+import Communities from "./pages/Communities"
+import ChatApp from "./pages/ChatApp"
+import Home from "./pages/Home"
+import Profile from "./pages/Profile"
+import "./App.css"
+import ChatbotPage from "./pages/ChatbotPage"
 
 const PrivateRoute = ({ children, allowedRoles }) => {
-  const { user } = useAuth();
-  if (!user) return <Navigate to="/login" />;
+  const { user } = useAuth()
+  if (!user) return <Navigate to="/login" />
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" />
   }
-  return children;
-};
+  return children
+}
 
 function App() {
   return (
@@ -23,32 +25,43 @@ function App() {
       <Router>
         <div className="app-container">
           <Navbar />
-          <Routes>
-            <Route path='/chatbot' element={<ChatbotPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/communities"
-              element={
-                <PrivateRoute allowedRoles={['patient']}>
-                  <Communities />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <div className="welcome-container">
-                  <h1 className="welcome-title">Welcome to MedConnect</h1>
-                </div>
-              }
-            />
-            <Route path="/chat/:communityId" element={<ChatApp />} />
-          </Routes>
+          <main className="main-content">
+            <Routes>
+              <Route path="/chatbot" element={<ChatbotPage />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/communities"
+                element={
+                  <PrivateRoute allowedRoles={["patient", "doctor"]}>
+                    <Communities />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/chat/:communityId"
+                element={
+                  <PrivateRoute allowedRoles={["patient", "doctor"]}>
+                    <ChatApp />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute allowedRoles={["patient", "doctor"]}>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </main>
         </div>
       </Router>
     </AuthProvider>
-  );
+  )
 }
 
-export default App;
+export default App
+
