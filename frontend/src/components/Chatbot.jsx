@@ -17,8 +17,7 @@ const Chatbot = () => {
     const handleUpload = async () => {
         const file = fileInputRef.current.files[0];
         
-        // Add file size validation (10MB limit)
-        const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+        const MAX_FILE_SIZE = 10 * 1024 * 1024; 
         if (file.size > MAX_FILE_SIZE) {
             setMessages(prev => [...prev, {
                 text: "File size should be less than 10MB",
@@ -32,7 +31,7 @@ const Chatbot = () => {
         formData.append('patientId', user._id);
         try {
             setMessages(prev => [...prev, {
-                text: "Analuz...",
+                text: "Analyzing...",
                 isBot: true
             }]);
 
@@ -48,7 +47,6 @@ const Chatbot = () => {
             
             const { fileUrl } = await cloudinaryResponse.json();
             
-            // Create new FormData with the Cloudinary URL
             const analysisFormData = new FormData();
             analysisFormData.append('fileUrl', fileUrl);
             
@@ -58,7 +56,7 @@ const Chatbot = () => {
             });
 
             const data = await response.json();
-            setAnalysisData(data); // Store the analysis data
+            setAnalysisData(data); 
             
             setMessages(prev => [...prev, {
                 text: JSON.stringify(data, null, 2),

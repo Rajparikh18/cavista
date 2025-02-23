@@ -1,0 +1,80 @@
+body {
+    /* font-family: Arial, sans-serif; */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    
+}
+
+header {
+    background-color: #b0cade;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+main {
+    padding: 1rem 2rem;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+h1, h2 {
+    color: #0071c2;
+}
+
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 0.5rem;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+
+/* Doctor Profile Section */
+.doctor-profile {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem auto;
+    width: 90%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.doctor-info h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.doctor-info p {
+    margin: 2px 0;
+}

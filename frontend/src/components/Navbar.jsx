@@ -60,7 +60,7 @@ const Navbar = () => {
                   </li>
                   <li>
                     <Link
-                      to="/profile"
+                      to="/blogs"
                       className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-lg font-medium transition-colors"
                     >
                       Blogs

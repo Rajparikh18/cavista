@@ -8,6 +8,7 @@ import Communities from "./pages/Communities"
 import ChatApp from "./pages/ChatApp"
 import Home from "./pages/Home"
 import Profile from "./pages/Profile"
+import Blogs from "./pages/Blogs"
 import "./App.css"
 import ChatbotPage from "./pages/ChatbotPage"
 import VideoConference from "./pages/VideoConference";
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/blogs" element={<Blogs />} />
                 <Route
                   path="/communities"
                   element={

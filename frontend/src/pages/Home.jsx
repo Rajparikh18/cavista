@@ -31,7 +31,7 @@ const Home = () => {
 
   const teamMembers = [
     { name: "Parth Kedari", role: "Team Lead/Chatbot", image: "" },
-    { name: "Rachit Nimje", role: "Website Frontend", image: "" },
+    { name: "Rachit Nimje", role: "Website Full Stack", image: "" },
     { name: "Vallabh", role: "Website Full Stack", image: "" },
     { name: "Om Shintre", role: "WebRTC Backend", image: "" },
     { name: "Om Bhavsar", role: "WebRTC Backend", image: "" },

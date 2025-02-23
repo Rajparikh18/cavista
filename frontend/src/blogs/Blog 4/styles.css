@@ -1,0 +1,115 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #d9a7c7, #fffcdc);
+    color: #333;
+}
+
+/* Header */
+header {
+    background: linear-gradient(to right, #007bff, #00d4ff);
+    color: white;
+    padding: 25px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Blog Container */
+.content {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 25px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.content:hover {
+    transform: scale(1.02);
+}
+
+/* Headings */
+h2 {
+    color: #007bff;
+    border-left: 5px solid #007bff;
+    padding-left: 10px;
+    font-size: 22px;
+}
+
+/* Lists */
+ul {
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+/* Author Section */
+.doctor-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #007bff;
+}
+
+.doctor-info h3 {
+    margin: 0;
+    color: #0056b3;
+    font-size: 20px;
+}
+
+/* Call-to-Action */
+.cta {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.cta a {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.cta a:hover {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content {
+        padding: 20px;
+    }
+
+    .doctor-profile {
+        flex-direction: column;
+        text-align: center;
+    }
+}
