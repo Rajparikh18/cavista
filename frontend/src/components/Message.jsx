@@ -1,7 +1,11 @@
-const Message = ({ text, isBot }) => {
+const Message = ({ text, isBot, isHTML }) => {
     return (
-        <div className={`message ${isBot ? 'bot-message' : 'user-message'}`}
-             dangerouslySetInnerHTML={{ __html: text }}>
+        <div className={`message ${isBot ? 'bot-message' : 'user-message'}`}>
+            {isHTML ? (
+                <div dangerouslySetInnerHTML={{ __html: text }} />
+            ) : (
+                <p>{text}</p>
+            )}
         </div>
     );
 };
