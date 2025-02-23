@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import { AuthProvider, useAuth } from "./context/AuthContext"
+import { SocketProvider } from "./context/SocketContext"
 import Navbar from "./components/Navbar"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
@@ -9,6 +10,7 @@ import Home from "./pages/Home"
 import Profile from "./pages/Profile"
 import "./App.css"
 import ChatbotPage from "./pages/ChatbotPage"
+import VideoConference from "./pages/VideoConference";
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user } = useAuth()
@@ -22,43 +24,53 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="app-container">
-          <Navbar />
-          <main className="main-content">
-            <Routes>
-              <Route path="/chatbot" element={<ChatbotPage />} />
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route
-                path="/communities"
-                element={
-                  <PrivateRoute allowedRoles={["patient", "doctor"]}>
-                    <Communities />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/chat/:communityId"
-                element={
-                  <PrivateRoute allowedRoles={["patient", "doctor"]}>
-                    <ChatApp />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <PrivateRoute allowedRoles={["patient", "doctor"]}>
-                    <Profile />
-                  </PrivateRoute>
-                }
-              />
-            </Routes>
-          </main>
-        </div>
-      </Router>
+      <SocketProvider>
+        <Router>
+          <div className="app-container">
+            <Navbar />
+            <main className="main-content">
+              <Routes>
+                <Route path="/chatbot" element={<ChatbotPage />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route
+                  path="/communities"
+                  element={
+                    <PrivateRoute allowedRoles={["patient", "doctor"]}>
+                      <Communities />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/chat/:communityId"
+                  element={
+                    <PrivateRoute allowedRoles={["patient", "doctor"]}>
+                      <ChatApp />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <PrivateRoute allowedRoles={["patient", "doctor"]}>
+                      <Profile />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                    path="/video-conference"
+                    element={
+                      <PrivateRoute allowedRoles={["patient", "doctor"]}>
+                        <VideoConference />
+                      </PrivateRoute>
+                    }
+                  />
+              </Routes>
+            </main>
+          </div>
+        </Router>
+      </SocketProvider>
     </AuthProvider>
   )
 }

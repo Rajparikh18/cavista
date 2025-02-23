@@ -9,6 +9,8 @@ import communityRoutes from './routes/communityRoutes.js';
 import Message from './models/Message.js';
 import jwt from 'jsonwebtoken';
 import Patient from './models/Patient.js';
+import fileUpload from 'express-fileupload';
+import uploadRoutes from './routes/uploadRoutes.js';
 
 dotenv.config();
 connectDB();
@@ -25,10 +27,12 @@ const io = new Server(httpServer, {
 app.use(cors());
 app.use(express.json());
 
+
+app.use(fileUpload({ useTempFiles: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/communities', communityRoutes);
-
+app.use('/api/upload', uploadRoutes);
 // Socket.IO middleware for authentication
 io.use(async (socket, next) => {
   try {
@@ -44,6 +48,9 @@ io.use(async (socket, next) => {
     next(new Error('Authentication error'));
   }
 });
+
+// Video Conference rooms storage
+const videoRooms = new Map();
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
@@ -71,6 +78,65 @@ io.on('connection', (socket) => {
       io.to(data.communityId).emit('newMessage', populatedMessage);
     } catch (error) {
       console.error('Message error:', error);
+    }
+  });
+
+  // Video Conference handlers
+  socket.on('join-video-room', (roomCode) => {
+    console.log(`User ${socket.user.username} joining room ${roomCode}`);
+    
+    socket.join(roomCode);
+    const room = io.sockets.adapter.rooms.get(roomCode);
+    const roomParticipants = room ? room.size : 0;
+    
+    console.log(`Room ${roomCode} now has ${roomParticipants} participants`);
+    
+    if (!videoRooms.has(roomCode)) {
+        videoRooms.set(roomCode, new Set());
+    }
+    videoRooms.get(roomCode).add(socket.user.username);
+    
+    const participants = Array.from(videoRooms.get(roomCode));
+    
+    io.in(roomCode).emit('room-joined', { 
+        roomCode, 
+        participants,
+        participantCount: roomParticipants,
+        userId: socket.user._id
+    });
+  });
+
+  socket.on('video-offer', ({ offer, roomCode }) => {
+    console.log(`Relaying video offer from ${socket.user.username} in room ${roomCode}`);
+    socket.to(roomCode).emit('video-offer', offer);
+  });
+
+  socket.on('video-answer', ({ answer, roomCode }) => {
+    console.log(`Relaying video answer from ${socket.user.username} in room ${roomCode}`);
+    socket.to(roomCode).emit('video-answer', answer);
+  });
+
+  socket.on('ice-candidate', ({ candidate, roomCode }) => {
+    console.log(`Relaying ICE candidate from ${socket.user.username} in room ${roomCode}`);
+    socket.to(roomCode).emit('ice-candidate', candidate);
+  });
+
+  socket.on('leave-video-room', (roomCode) => {
+    socket.leave(roomCode);
+    
+    // Remove user from room storage
+    if (videoRooms.has(roomCode)) {
+      videoRooms.get(roomCode).delete(socket.user.username);
+      if (videoRooms.get(roomCode).size === 0) {
+        videoRooms.delete(roomCode);
+      } else {
+        // Notify remaining participants
+        const participants = Array.from(videoRooms.get(roomCode));
+        io.to(roomCode).emit('participant-left', {
+          username: socket.user.username,
+          participants
+        });
+      }
     }
   });
 
