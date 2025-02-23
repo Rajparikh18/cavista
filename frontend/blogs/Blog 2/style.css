@@ -1,0 +1,79 @@
+/* General Page Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Header and Doctor Profile */
+header {
+    background: #0073e6;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.doctor-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.doctor-profile img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.doctor-details {
+    text-align: left;
+}
+
+/* Main Content */
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+}
+
+p {
+    color: #555;
+}
+
+ul {
+    list-style: square;
+    margin-left: 20px;
+}
+
+h3 {
+    color: #0073e6;
+    margin-top: 20px;
+}
+
+/* Section Styling */
+section {
+    margin-bottom: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .doctor-profile {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .doctor-profile img {
+        margin-bottom: 10px;
+    }
+}

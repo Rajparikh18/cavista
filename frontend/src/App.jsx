@@ -9,6 +9,7 @@ import Home from "./pages/Home"
 import Profile from "./pages/Profile"
 import "./App.css"
 import ChatbotPage from "./pages/ChatbotPage"
+import Blogs from "./pages/Blogs"
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user } = useAuth()
@@ -31,6 +32,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/blogs" element={<Blogs />} />
               <Route
                 path="/communities"
                 element={
