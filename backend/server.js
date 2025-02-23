@@ -33,7 +33,6 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/communities', communityRoutes);
 app.use('/api/upload', uploadRoutes);
-// Socket.IO middleware for authentication
 io.use(async (socket, next) => {
   try {
     const token = socket.handshake.auth.token;
@@ -49,10 +48,8 @@ io.use(async (socket, next) => {
   }
 });
 
-// Video Conference rooms storage
 const videoRooms = new Map();
 
-// Socket.IO connection handling
 io.on('connection', (socket) => {
   console.log('User connected:', socket.user.username);
 
@@ -81,7 +78,6 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Video Conference handlers
   socket.on('join-video-room', (roomCode) => {
     console.log(`User ${socket.user.username} joining room ${roomCode}`);
     
@@ -124,13 +120,11 @@ io.on('connection', (socket) => {
   socket.on('leave-video-room', (roomCode) => {
     socket.leave(roomCode);
     
-    // Remove user from room storage
     if (videoRooms.has(roomCode)) {
       videoRooms.get(roomCode).delete(socket.user.username);
       if (videoRooms.get(roomCode).size === 0) {
         videoRooms.delete(roomCode);
       } else {
-        // Notify remaining participants
         const participants = Array.from(videoRooms.get(roomCode));
         io.to(roomCode).emit('participant-left', {
           username: socket.user.username,

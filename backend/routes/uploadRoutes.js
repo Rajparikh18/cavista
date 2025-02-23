@@ -31,7 +31,6 @@ router.post('/cloudinary', async (req, res) => {
       resource_type: 'raw',
       allowed_formats: ['pdf']
     });
-    // If patientId is provided, associate the document with the patient
     if (req.body.patientId) {
       const patient = await Patient.findById(req.body.patientId);
       if (patient) {

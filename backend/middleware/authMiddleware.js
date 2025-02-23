@@ -10,7 +10,6 @@ export const protect = async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       
-      // Check in both collections
       let user = await Doctor.findById(decoded.id).select('-password');
       if (!user) {
         user = await Patient.findById(decoded.id).select('-password');
