@@ -6,7 +6,7 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true) // Add loading state
+  const [loading, setLoading] = useState(true) 
 
   useEffect(() => {
     const initializeAuth = () => {
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   if (loading) {
-    return null // or return a loading spinner component
+    return null 
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -4,16 +4,15 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 const CreateCommunityModal = ({ isOpen, onClose, onCreateCommunity }) => {
-  const { user } = useAuth(); // Access the authenticated user
+  const { user } = useAuth(); 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-  const [error, setError] = useState(""); // Error state
+  const [isLoading, setIsLoading] = useState(false); 
+  const [error, setError] = useState(""); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate inputs
     if (!name.trim() || !description.trim()) {
       setError("Please fill in all fields.");
       return;
@@ -27,9 +26,9 @@ const CreateCommunityModal = ({ isOpen, onClose, onCreateCommunity }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`, // Include the user's token
+          Authorization: `Bearer ${user.token}`, 
         },
-        body: JSON.stringify({ name, description }), // Send the payload
+        body: JSON.stringify({ name, description }), 
       });
 
       if (!response.ok) {
@@ -40,9 +39,7 @@ const CreateCommunityModal = ({ isOpen, onClose, onCreateCommunity }) => {
       const newCommunity = await response.json();
       console.log("Community created successfully:", newCommunity);
 
-      // Refresh the communities list
       onCreateCommunity();
-      // Close the modal
       onClose();
     } catch (error) {
       console.error("Error creating community:", error);

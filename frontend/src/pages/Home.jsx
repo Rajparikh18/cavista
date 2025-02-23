@@ -30,20 +30,19 @@ const Home = () => {
   ];
 
   const teamMembers = [
-    { name: "Parth Kedari", role: "Team Lead/AI-ML Specialist", image: "/api/placeholder/200/200" },
-    { name: "James Wilson", role: "CTO", image: "/api/placeholder/200/200" },
-    { name: "Dr. Sarah Chen", role: "Medical Director", image: "/api/placeholder/200/200" },
-    { name: "Michael Roberts", role: "Head of Development", image: "/api/placeholder/200/200" },
-    { name: "Dr. Lisa Thompson", role: "Research Lead", image: "/api/placeholder/200/200" },
-    { name: "David Kim", role: "UX Director", image: "/api/placeholder/200/200" },
-    { name: "Rachel Martinez", role: "Community Manager", image: "/api/placeholder/200/200" }
+    { name: "Parth Kedari", role: "Team Lead/Chatbot", image: "" },
+    { name: "Rachit Nimje", role: "Website Frontend", image: "" },
+    { name: "Vallabh", role: "Website Full Stack", image: "" },
+    { name: "Om Shintre", role: "WebRTC Backend", image: "" },
+    { name: "Om Bhavsar", role: "WebRTC Backend", image: "" },
+    { name: "Raj", role: "Website Backend", image: "" },
+    { name: "Shaunak", role: "Chatbot Backend", image: "" }
   ];
 
   const images = ["/home1.jpg", "/home2.jpg", "/home3.jpg"];
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
       <div className="min-h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-12">
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
@@ -70,29 +69,12 @@ const Home = () => {
           </motion.button>
         </motion.div>
 
-        {/* <motion.div 
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
+    <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="md:w-1/2 grid grid-cols-2 gap-4"
+          className="grid grid-cols-3 grid-rows-2 gap-3 w-full max-w-lg mx-auto"
         >
-          {[1, 2, 3, 4].map((i) => (
-            <img
-              key={i}
-                  src={img1}
-              alt={`Medical ${i}`}
-              className="rounded-lg shadow-lg w-full h-full object-cover"
-            />
-          ))}
-        </motion.div> */}
-
-<motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="grid grid-cols-3 grid-rows-2 gap-3 w-full max-w-lg mx-auto"
-    >
-      {/* Large Image */}
       <div className="col-span-2 row-span-2">
         <motion.img
           src={images[0]}
@@ -102,7 +84,6 @@ const Home = () => {
         />
       </div>
 
-      {/* Two Small Images */}
       <div className="col-span-1 row-span-1">
         <motion.img
           src={images[1]}
@@ -120,19 +101,9 @@ const Home = () => {
         />
       </div>
 
-      {/* Wide Image */}
-      {/* <div className="col-span-1 row-span-2">
-        <motion.img
-          src={images[3]}
-          alt="Medical 4"
-          className="rounded-lg shadow-md w-full h-full object-cover"
-          whileHover={{ scale: 1.05 }}
-        />
-      </div> */}
     </motion.div>
       </div>
 
-      {/* Features Section */}
       <div className="py-16 px-6 md:px-16">
         <h2 className="text-3xl font-bold text-center mb-12">What we provide?</h2>
         <div className="space-y-8">
@@ -154,7 +125,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Testimonials Section */}
       <div className="bg-gray-50 py-16 px-6 md:px-16">
         <h2 className="text-3xl font-bold text-center mb-12">What Our Users Say</h2>
         <div className="flex overflow-x-auto space-x-6 pb-8">
@@ -174,7 +144,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Team Section */}
       <div className="bg-gray-50 py-16 px-6 md:px-16">
         <h2 className="text-3xl font-bold text-center mb-12">Meet Our Team</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">

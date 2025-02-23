@@ -21,14 +21,12 @@ export const SocketProvider = ({ children }) => {
             return;
         }
 
-        // Initialize socket connection
         const newSocket = io('http://localhost:5000', {
             auth: {
                 token: user.token
             }
         });
 
-        // Socket event listeners
         newSocket.on('connect', () => {
             console.log('Socket connected');
         });
@@ -43,7 +41,6 @@ export const SocketProvider = ({ children }) => {
 
         setSocket(newSocket);
 
-        // Cleanup on unmount
         return () => {
             if (newSocket) {
                 newSocket.disconnect();

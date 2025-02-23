@@ -60,7 +60,6 @@ const CBCResults = ({ analysisData }) => {
       {/* Parameters Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {Object.entries(parameters).map(([name, data]) => {
-          // Ensure data object exists and has required properties
           const {
             value = '',
             unit = '',

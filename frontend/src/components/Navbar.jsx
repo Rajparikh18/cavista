@@ -38,7 +38,6 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Menu */}
           <div className="tex-3xl hidden sm:flex sm:items-center">
             <ul className="flex items-center space-x-4">
               {user ? (
@@ -113,7 +112,6 @@ const Navbar = () => {
             </ul>
           </div>
 
-          {/* Mobile menu button */}
           <div className="flex items-center sm:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -130,7 +128,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} sm:hidden`}>
         <ul className="pt-2 pb-3 space-y-1">
           {user ? (
